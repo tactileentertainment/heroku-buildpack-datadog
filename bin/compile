@@ -2,7 +2,7 @@
 # bin/compile <build-dir> <cache-dir> <env-dir>
 
 set -e   # fail fast
-# set -x # enable debugging
+set -x # enable debugging
 
 # Configure directories
 BUILD_DIR=$1
