@@ -257,7 +257,7 @@ class Histogram(Metric):
         avg = sum(self.samples) / float(length)
         
         if self.name == 'heroku.router.request.service' and 'app:bee-brilliant' in self.tags:
-            log.debug("heroku.router.request.service.median=%d heroku.router.request.service.average=%d samples.length=%d (tags=%s)" % (med, avg, self.samples.length, str(self.tags)))
+            log.debug("heroku.router.request.service.median=%d heroku.router.request.service.average=%d samples.length=%d (tags=%s)" % (med, avg, len(self.samples), str(self.tags)))
 
         aggregators = [
             ('min', min_, MetricTypes.GAUGE),
