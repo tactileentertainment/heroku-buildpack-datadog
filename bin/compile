@@ -70,6 +70,9 @@ sed -i -e"s|^.*dogstatsd_log_file:.*$|dogstatsd_log_file: $DD_LOG_DIR/dogstatsd.
 # Fix log_level
 sed -i -e"s|^.*log_level:.*$|log_level: DEBUG|" $DD_AGENT_CONF
 
+# Use modified aggregator.py
+cp $BUILDPACK_DIR/extra/aggregator.py $DD_AGENT_ROOT/opt/datadog-agent/agent/
+
 # Drop off the runner
 mkdir -p $BUILD_DIR/.profile.d
 cp $BUILDPACK_DIR/extra/run-dogstatsd.sh $BUILD_DIR/.profile.d/
