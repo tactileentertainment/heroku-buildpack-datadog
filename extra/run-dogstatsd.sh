@@ -13,10 +13,8 @@ else
 fi
 
 if [[ $DATADOG_HOST_NAME ]]; then
-    echo "FOUND NAME" $DATADOG_HOST_NAME
   sed -i -e "s/^.*hostname:.*$/hostname: ${DATADOG_HOST_NAME}/" /app/.apt/opt/datadog-agent/agent/datadog.conf
 elif [[ $HEROKU_APP_NAME ]]; then
-    echo "FOUND NAME" $HEROKU_APP_NAME
   sed -i -e "s/^.*hostname:.*$/hostname: ${HEROKU_APP_NAME}/" /app/.apt/opt/datadog-agent/agent/datadog.conf
 else
   echo "DATADOG_HOST_NAME nor HEROKU_APP_NAME environment variable set. Run: heroku apps:info|grep ===|cut -d' ' -f2"
