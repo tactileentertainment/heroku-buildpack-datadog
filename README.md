@@ -3,6 +3,13 @@ heroku-buildpack-datadog
 
 A [Heroku Buildpack] to add [Datadog] [DogStatsD] relay to any Dyno.
 
+## Warning: Version pinned to datadog-agent 1:5.11.2-1
+
+[datadog-agent 5.12.0 broke compatibility with this buildpack
+by hard-deprecating `dogstatsd.py start`](https://github.com/DataDog/dd-agent/pull/3004)
+
+When the incompatibility is resolved [#30](https://github.com/miketheman/heroku-buildpack-datadog/pull/30) can be reverted.
+
 ## Usage
 
 This buildpack is typically used in conjunction with other languages, so is
@@ -26,9 +33,21 @@ git push heroku master
 You can create/retrieve the `DATADOG_API_KEY` from your account on [this page](https://app.datadoghq.com/account/settings#api).
 API Key, not application key.
 
+You can optionally set additional percentiles for your histogram metrics. By default
+only 95th percentile will be generated. To generate additional percentiles, set *all*
+persentiles, including default one, using env variable `DATADOG_HISTOGRAM_PERCENTILES`.
+For example, if you want to generate 0.95 and 0.99 percentiles, you may use following
+command:
+
+```shell
+heroku config:add DATADOG_HISTOGRAM_PERCENTILES="0.95, 0.99"
+```
+
+Documentaion about additional percentiles [here](https://help.datadoghq.com/hc/en-us/articles/204588979-How-to-graph-percentiles-in-Datadog).
+
 Once complete, the Agent's dogstatsd binary will be started automatically with the Dyno startup.
 
-Once started, provides a listening port on 8125 for statsd/dotstatsd metrics and events.
+Once started, provides a listening port on 8125 for statsd/dogstatsd metrics and events.
 
 An example using Ruby is [here](https://github.com/miketheman/buildpack-example-ruby).
 
@@ -40,7 +59,7 @@ Things that have not been tested, tried, figured out.
 - determine how the compiled cache behaves with new releases of the
   datadog-agent package, as it stored the deb file
 - tag release when stable, update docs on how to use a given release in
-  q.buildpacks
+  `.buildpacks`, like "https://github.com/miketheman/heroku-buildpack-datadog.git#v1.0.0"
 
 ## Contributing
 
